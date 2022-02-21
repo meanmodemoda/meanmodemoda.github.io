@@ -38,6 +38,7 @@ function setup() {
   noStroke();
   background(255);
   noiseDetail(5, 0.9);
+  // noLoop();
 }
 
 function draw() {
