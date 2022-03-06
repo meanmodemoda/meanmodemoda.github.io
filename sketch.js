@@ -27,7 +27,7 @@ function draw() {
   }
   img.updatePixels();
   noSmooth();
-  image(img, -width - 50, -height - 50, width * 2.5, height * 2.5);
+  image(img, -width, -width, width * 2, width * 2);
 
 
 
