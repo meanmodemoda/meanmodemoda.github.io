@@ -1,90 +1,41 @@
+// require https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js
 
-let t;
-let pixelMap = [];
-let noiseScale = 0.001;
-let noiseMax = 1;
-const pane = new Tweakpane();
-const params = {
-  redBelle: 0,
-  redSole: 1,
-  redBull: 0,
-  redSin: 155,
-  greenIn: 0.2,
-  greenEr: 1,
-  greenEst: 50,
-  greenOut: 150,
-  blueMoon: 0,
-  blueNoon: 1,
-  blueSnooze: 0,
-  bluePill: 255,
-}
-
-pane.addInput(params, "redBelle", { min: 0, max: 1, step: 0.01 });
-pane.addInput(params, "redSole", { min: 0, max: 1, step: 0.01 });
-pane.addInput(params, "redBull", { min: 0, max: 255, step: 1 });
-pane.addInput(params, "redSin", { min: 0, max: 255, step: 1 });
-pane.addInput(params, "greenIn", { min: 0, max: 1, step: 0.01 });
-pane.addInput(params, "greenEr", { min: 0, max: 1, step: 0.01 });
-pane.addInput(params, "greenEst", { min: 0, max: 255, step: 1 });
-pane.addInput(params, "greenOut", { min: 0, max: 255, step: 1 });
-pane.addInput(params, "blueMoon", { min: 0, max: 1, step: 0.01 });
-pane.addInput(params, "blueNoon", { min: 0, max: 1, step: 0.01 });
-pane.addInput(params, "blueSnooze", { min: 0, max: 255, step: 1 });
-pane.addInput(params, "bluePill", { min: 0, max: 255, step: 1 });
+let inc = 0.05;
 
 function setup() {
-
-  createCanvas(windowWidth, windowHeight)
-  noStroke();
-  background(255);
-  noiseDetail(5, 0.9);
-  // noLoop();
+  createCanvas(windowWidth, windowHeight);
+  noiseDetail(1);
 }
 
 function draw() {
-  makeMap();
-  drawMap();
+
+
+  translate(width / 2, height / 2);
+  rotate(0.01 * frameCount);
+
+  img = createImage(250, 250);
+  img.loadPixels();
+
+  var m = map(noise(frameCount * 0.004), 0, 1, 1.5, 2);
+  for (let y = 0; y < img.height; y++) {
+    for (let x = 0; x < img.width; x++) {
+      let r = map(x, 0, img.width, 60, 180);
+      let g = map(y, 0, img.height, 20, 120);
+      let c = color(r * m, g * m, 120 * m);
+      img.set(x, y, c);
+    }
+  }
+  img.updatePixels();
+  noSmooth();
+  image(img, -width - 50, -height, width * 2, height * 2);
+
+  noStroke();
   textFont('Gluten');
   textSize(28);
   textAlign(CENTER);
-  fill(255);
-  noStroke();
+
+  push()
   text('Under Construction', width / 2, height * 7 / 8);
   pop();
-}
-
-function makeMap() {
-  for (let i = 0; i < width; i++) {
-    pixelMap[i] = [];
-    for (let j = 0; j < height; j++) {
-      pixelMap[i][j] = pickColor(i, j);
-    }
-  }
-
-
-}
-
-function pickColor(i, j) {
-
-  let height = noise((i) * noiseScale, (j) * noiseScale)
-  let colorT = "#facade";//set up a color and initialize to a pink color if things go wrong
-  let colorR = floor(map(noise(height, 1), params.redBelle, params.redSole, params.redBull, params.redSin))
-  let colorG = floor(map(noise(height, 3), params.greenIn, params.greenEr, params.greenEst, params.greenOut))
-  let colorB = floor(map(noise(height, 4), params.blueMoon, params.blueNoon, params.blueSnooze, params.bluePill))
-
-  colorT = [colorR, colorG, colorB]
-  return color(colorT);
-
-}
-
-
-function drawMap() {
-
-  for (let i = 0; i < width; i++) {
-    for (let j = 0; j < height; j++) {
-      set(i, j, pixelMap[i][j])
-    }
-  }
-  updatePixels();
 
 }
