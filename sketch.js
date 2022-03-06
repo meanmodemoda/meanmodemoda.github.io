@@ -27,15 +27,8 @@ function draw() {
   }
   img.updatePixels();
   noSmooth();
-  image(img, -width - 50, -height, width * 2, height * 2);
+  image(img, -width - 50, -height - 50, width * 2.5, height * 2.5);
 
-  noStroke();
-  textFont('Gluten');
-  textSize(28);
-  textAlign(CENTER);
 
-  push()
-  text('Under Construction', width / 2, height * 7 / 8);
-  pop();
 
 }
