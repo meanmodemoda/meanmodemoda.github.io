@@ -8,8 +8,6 @@ function setup() {
 }
 
 function draw() {
-
-
   translate(width / 2, height / 2);
   rotate(0.01 * frameCount);
 
@@ -19,16 +17,13 @@ function draw() {
   var m = map(noise(frameCount * 0.004), 0, 1, 1.5, 2);
   for (let y = 0; y < img.height; y++) {
     for (let x = 0; x < img.width; x++) {
-      let r = map(x, 0, img.width, 60, 180);
-      let g = map(y, 0, img.height, 20, 120);
-      let c = color(r * m, g * m, 120 * m);
+      let r = map(x, 0, img.width, 50, 120);
+      let g = map(y, 0, img.height, 20, 140);
+      let c = color(r * m, g * m, 100 * m);
       img.set(x, y, c);
     }
   }
   img.updatePixels();
   noSmooth();
   image(img, -width, -width, width * 2, width * 2);
-
-
-
 }
